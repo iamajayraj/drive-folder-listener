@@ -4,7 +4,8 @@ from functools import lru_cache
 
 class Settings(BaseSettings):
     # Google Drive settings
-    GOOGLE_SERVICE_ACCOUNT_FILE: Path
+    GOOGLE_SERVICE_ACCOUNT_FILE: Path = None
+    GOOGLE_SERVICE_ACCOUNT_JSON: str = None
     
     # Dify settings
     DIFY_BASE_URL: str = "https://api.dify.ai/v1"

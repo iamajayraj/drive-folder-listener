@@ -14,11 +14,22 @@ SCOPES = ['https://www.googleapis.com/auth/drive.readonly']
 class GoogleDriveService:
     def __init__(self):
         try:
-            print(f"Initializing Google Drive service with credentials from: {settings.GOOGLE_SERVICE_ACCOUNT_FILE}")
-            credentials = service_account.Credentials.from_service_account_file(
-                str(settings.GOOGLE_SERVICE_ACCOUNT_FILE),
-                scopes=SCOPES
-            )
+            if settings.GOOGLE_SERVICE_ACCOUNT_JSON:
+                # Use JSON content from environment variable
+                import json
+                from io import StringIO
+                service_account_info = json.loads(settings.GOOGLE_SERVICE_ACCOUNT_JSON)
+                credentials = service_account.Credentials.from_service_account_info(
+                    service_account_info,
+                    scopes=SCOPES
+                )
+            else:
+                # Fallback to file
+                print(f"Initializing Google Drive service with credentials from file: {settings.GOOGLE_SERVICE_ACCOUNT_FILE}")
+                credentials = service_account.Credentials.from_service_account_file(
+                    str(settings.GOOGLE_SERVICE_ACCOUNT_FILE),
+                    scopes=SCOPES
+                )
             self.service = build('drive', 'v3', credentials=credentials)
             print("Successfully initialized Google Drive service")
         except Exception as e:
