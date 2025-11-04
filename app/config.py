@@ -1,11 +1,10 @@
 from pathlib import Path
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 from functools import lru_cache
 
 class Settings(BaseSettings):
     # Google Drive settings
-    GOOGLE_SERVICE_ACCOUNT_FILE: Path = None
-    GOOGLE_SERVICE_ACCOUNT_JSON: str = None
+    GOOGLE_SERVICE_ACCOUNT_FILE: Path
     
     # Dify settings
     DIFY_BASE_URL: str = "https://api.dify.ai/v1"
